@@ -54,6 +54,7 @@ export class HorizontalListAnimationView extends React.Component<HorizontalListA
             0,
             this.displayPicList.reduce((sum, item) => sum + item.width + width(22), 0) - SCREEN_WIDTH
         );
+        console.log('maxScrollOffset--' + this.maxScrollOffset)
     }
 
     /**
