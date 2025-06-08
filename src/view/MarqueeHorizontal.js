@@ -81,7 +81,6 @@ export default class MarqueeHorizontal extends Component {
         this.start();
       }
     } else if (this.props.type == MarqueeType.Swiper) {
-      // console.log(this.state.swiperList , prevState.swiperList);
       if (!this.state.animation) {
         console.log('执行swiper动画');
         let list = this.state.list;
