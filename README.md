@@ -1,86 +1,159 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# RnAppDemo
 
-# Getting Started
+这是一个基于 React Native 的示例项目，展示了多种动画效果和UI组件的实现。
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+## 项目概述
 
-## Step 1: Start the Metro Server
+本项目主要包含以下功能演示：
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+1. 水平列表动画展示
+2. 跑马灯效果展示
 
-To start Metro, run the following command from the _root_ of your React Native project:
+项目使用了 React Navigation 进行页面导航，并实现了多种自定义动画组件。
+
+## 技术栈
+
+- React Native 0.72.6
+- React 18.2.0
+- TypeScript
+- React Navigation (用于路由和导航)
+- react-native-safe-area-context
+- react-native-screens
+
+## 项目结构
+
+```
+src/
+├── App.tsx (应用入口)
+├── navigators/
+│   └── AppNavigator.tsx (应用导航器)
+├── screens/
+│   ├── HomeScreen.tsx (主页)
+│   ├── HorizontalListPage.tsx (水平列表页面)
+│   └── MarqueeHorizontalPage.js (跑马灯效果页面)
+├── view/
+│   ├── HorizontalListAnimationView.tsx (水平列表动画组件)
+│   └── MarqueeHorizontal.js (跑马灯组件)
+└── styles/
+    └── index.js (样式工具)
+```
+
+## 功能介绍
+
+### 1. 水平列表动画 (HorizontalListAnimationView)
+
+该组件实现了自动水平滚动的图片列表，具有以下特点：
+- 自动往返滚动动画
+- 图片加载状态管理
+- 图片加载失败处理
+- 平滑的动画过渡效果
+- 支持Android和iOS平台
+
+### 2. 跑马灯效果 (MarqueeHorizontal)
+
+该组件提供了多种滚动文字效果，包括：
+- 单向连续滚动
+- 切换式滚动
+- 可配置滚动方向（左/右）
+- 可自定义滚动速度和持续时间
+- 支持点击事件
+
+## 运行环境
+
+- Node.js >= 16
+- React Native CLI
+- Android Studio (用于Android开发)
+- Xcode (用于iOS开发)
+
+## 快速开始
+
+### 安装依赖
 
 ```bash
-# using npm
+# 使用 npm
+npm install
+
+# 或者使用 yarn
+yarn install
+```
+
+### 启动 Metro 服务器
+
+```bash
+# 使用 npm
 npm start
 
-# OR using Yarn
+# 或者使用 yarn
 yarn start
 ```
 
-## Step 2: Start your Application
+### 运行应用
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
-
-### For Android
+#### Android
 
 ```bash
-# using npm
+# 使用 npm
 npm run android
 
-# OR using Yarn
+# 或者使用 yarn
 yarn android
 ```
 
-### For iOS
+#### iOS
 
 ```bash
-# using npm
+# 使用 npm
 npm run ios
 
-# OR using Yarn
+# 或者使用 yarn
 yarn ios
 ```
 
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+## 项目配置
 
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
+项目配置信息可以在以下文件中找到：
+- [package.json](package.json) - 项目依赖和脚本
+- [tsconfig.json](tsconfig.json) - TypeScript 配置
+- [babel.config.js](babel.config.js) - Babel 配置
+- [metro.config.js](metro.config.js) - Metro 打包工具配置
 
-## Step 3: Modifying your App
+## 页面导航
 
-Now that you have successfully run the app, let's modify it.
+应用使用 React Navigation 实现页面导航：
+1. 主页 (HomeScreen) - 包含两个功能按钮，可跳转到不同演示页面
+2. 水平列表动画页面 (HorizontalListPage) - 展示水平图片列表动画
+3. 跑马灯效果页面 (MarqueeHorizontalPage) - 展示文字滚动效果
 
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
+## 自定义组件
 
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
+### HorizontalListAnimationView
 
-## Congratulations! :tada:
+位于 [src/view/HorizontalListAnimationView.tsx](src/view/HorizontalListAnimationView.tsx)，是一个实现了自动往返滚动的水平图片列表组件。
 
-You've successfully run and modified your React Native App. :partying_face:
+主要特性：
+- 使用 Animated API 实现流畅动画
+- 支持图片加载状态管理
+- 自动适配屏幕宽度
+- 处理不同平台的兼容性问题
 
-### Now what?
+### MarqueeHorizontal
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
+位于 [src/view/MarqueeHorizontal.js](src/view/MarqueeHorizontal.js)，是一个功能丰富的跑马灯组件。
 
-# Troubleshooting
+支持两种模式：
+- Simple 模式：连续滚动
+- Swiper 模式：切换式滚动
 
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+## 贡献
 
-# Learn More
+欢迎提交 Issue 和 Pull Request 来改进这个示例项目。
 
-To learn more about React Native, take a look at the following resources:
+## 许可证
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+该项目基于 React Native 初始化模板创建，遵循 React Native 相关许可证条款。
 
+## 学习资源
 
-# node版本：18.1.0
-# ReactNative版本： 0.72.6
-# Android JDK版本 11
-
-
+- [React Native 官方文档](https://reactnative.dev)
+- [React Navigation 文档](https://reactnavigation.org/)
+- [TypeScript 文档](https://www.typescriptlang.org/)
