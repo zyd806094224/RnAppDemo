@@ -1,5 +1,5 @@
 import React from 'react';
-import {Animated, Easing, FlatList, Image, View} from 'react-native';
+import {Animated, Easing, FlatList, Image, View, Platform} from 'react-native';
 import {height, SCREEN_WIDTH, width} from '../styles';
 
 
@@ -8,7 +8,8 @@ interface HorizontalListAnimationViewProp{
 }
 
 interface HorizontalListAnimationViewState{
-
+    loadedImages: Set<string>; // 添加图片加载状态跟踪
+    failedImages: Set<string>; // 添加图片加载失败状态跟踪
 }
 
 interface ItemData {
@@ -31,13 +32,18 @@ export class HorizontalListAnimationView extends React.Component<HorizontalListA
     private maxScrollOffset = 0; // 最大滚动距离
     constructor(props: HorizontalListAnimationViewProp) {
         super(props);
+        this.state = {
+            loadedImages: new Set(),
+            failedImages: new Set()
+        };
     }
 
     componentDidMount() {
         this._generateDisplayPicListData()
+        // 延长启动动画的时间，确保组件已完全挂载
         setTimeout(() => {
             this._startHeadPicListAnimate();
-        }, 1000);
+        }, Platform.OS === 'android' ? 1500 : 1000); // Android设备增加延迟
     }
 
     componentWillUnmount() {
@@ -92,13 +98,53 @@ export class HorizontalListAnimationView extends React.Component<HorizontalListA
     // @ts-ignore
     _renderItem({item, index}) {
         if (item.type == 'img') {
+            // 检查图片是否加载失败
+            if (this.state.failedImages.has(item.imageUrl)) {
+                // 如果图片加载失败，显示占位视图
+                return (
+                    <View style={{
+                        width: width(400),
+                        height: height(300),
+                        borderRadius: width(16),
+                        backgroundColor: '#eee',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        borderWidth: 2, // 添加深灰色边框
+                        borderColor: '#333333' // 深灰色
+                    }}>
+                        {/* 可以添加一个占位图标或文字 */}
+                    </View>
+                );
+            }
+
             return (
                 <Image
                     source={{uri: item.imageUrl}}
-                    style={{width: width(400),
+                    style={{
+                        width: width(400),
                         height: height(300),
-                        borderRadius: width(16)}}
+                        borderRadius: width(16),
+                        borderWidth: 2, // 添加深灰色边框
+                        borderColor: '#333333' // 深灰色
+                    }}
                     resizeMode="cover"
+                    onLoad={() => {
+                        // 图片加载成功
+                        this.setState(prevState => {
+                            const loadedImages = new Set(prevState.loadedImages);
+                            loadedImages.add(item.imageUrl);
+                            return {loadedImages};
+                        });
+                    }}
+                    onError={() => {
+                        // 图片加载失败处理
+                        console.log(`Failed to load image: ${item.imageUrl}`);
+                        this.setState(prevState => {
+                            const failedImages = new Set(prevState.failedImages);
+                            failedImages.add(item.imageUrl);
+                            return {failedImages};
+                        });
+                    }}
                 />
             )
         } else {
@@ -125,11 +171,12 @@ export class HorizontalListAnimationView extends React.Component<HorizontalListA
                     renderItem={this._renderItem.bind(this)}
                     showsHorizontalScrollIndicator={false}
                     scrollEnabled={true}
-                    getItemLayout={(data, index) => ({
-                        length: this.itemWidthWithSpacing,
-                        offset: this.itemWidthWithSpacing * index,
-                        index,
-                    })}
+                    // 移除getItemLayout以避免在某些Android设备上的问题
+                    // getItemLayout={(data, index) => ({
+                    //     length: this.itemWidthWithSpacing,
+                    //     offset: this.itemWidthWithSpacing * index,
+                    //     index,
+                    // })}
                     ItemSeparatorComponent={() => (
                         <View style={{width: this.picItemSpacing}}/> // 垂直列表设置高度，水平列表设置宽度
                     )}
