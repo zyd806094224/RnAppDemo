@@ -12,7 +12,6 @@ export type RootStackParamList = {
     MarqueeHorizontal: undefined;
 };
 
-// @ts-ignore
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function AppNavigator() {

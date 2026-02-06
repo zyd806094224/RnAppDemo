@@ -2,9 +2,13 @@
 import React from 'react';
 import { View, Button, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import type { RootStackParamList } from '../navigators/AppNavigator';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+
+type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 export default function HomeScreen() {
-    const navigation = useNavigation();
+    const navigation = useNavigation<NavigationProp>();
 
     return (
         <View style={styles.container}>
